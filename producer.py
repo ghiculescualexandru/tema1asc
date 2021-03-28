@@ -13,7 +13,6 @@ class Producer(Thread):
     """
     Class that represents a producer.
     """
-
     def __init__(self, products, marketplace, republish_wait_time, **kwargs):
         """
         Constructor.
@@ -31,11 +30,11 @@ class Producer(Thread):
         @type kwargs:
         @param kwargs: other arguments that are passed to the Thread's __init__()
         """
+        Thread.__init__(self, daemon=kwargs["daemon"])
         self.products = products
         self.marketplace = marketplace
         self.republish_wait_time = republish_wait_time
         self.kwargs = kwargs
-        Thread.__init__(self, daemon=kwargs["daemon"])
 
     def run(self):
         producer_id = self.marketplace.register_producer()
@@ -53,7 +52,5 @@ class Producer(Thread):
                     if not produced:
                         sleep(self.republish_wait_time)
                         continue
-
-                    # aici era sleep
 
                     quantity -= 1

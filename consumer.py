@@ -9,6 +9,14 @@ March 2021
 from threading import Thread
 from time import sleep
 
+ADD = "add"
+REMOVE = "remove"
+TYPE = "type"
+PRODUCT = "product"
+QUANTITY = 'quantity'
+NAME = "name"
+CONSUMER_MSG = "{} bought {}" # Expects name and item.
+
 class Consumer(Thread):
     """
     Class that represents a consumer.
@@ -31,21 +39,21 @@ class Consumer(Thread):
         :type kwargs:
         :param kwargs: other arguments that are passed to the Thread's __init__()
         """
+        Thread.__init__(self)
         self.carts = carts
         self.marketplace = marketplace
         self.retry_wait_time = retry_wait_time
         self.kwargs = kwargs
-        Thread.__init__(self)
 
     def run(self):
         for cart in self.carts:
             cart_id = self.marketplace.new_cart()
             for command in cart:
-                command_type = command['type']
-                product = command['product']
-                quantity = int(command['quantity'])
+                command_type = command[TYPE]
+                product = command[PRODUCT]
+                quantity = int(command[QUANTITY])
 
-                if command_type == 'add':
+                if command_type == ADD:
                     while quantity > 0:
                         added = self.marketplace.add_to_cart(cart_id, product)
                         if not added:
@@ -53,15 +61,11 @@ class Consumer(Thread):
                             continue
 
                         quantity -= 1
-
-                        if quantity == 0:
-                            break
-                elif command_type == 'remove':
+                elif command_type == REMOVE:
                     while quantity > 0:
                         self.marketplace.remove_from_cart(cart_id, product)
                         quantity -= 1
 
             items = self.marketplace.place_order(cart_id)
             for item in items:
-                product = item[0]
-                print("{} bought {}".format(self.kwargs["name"], product))
+                print(CONSUMER_MSG.format(self.kwargs[NAME], item))
