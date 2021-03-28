@@ -74,7 +74,7 @@ class Marketplace:
         self.cart_lock.acquire()
         try:
             cart_id = self.carts_no
-            self.carts[cart_id] = []
+            self.carts[cart_id] = list()
             self.carts_no += 1
         finally:
             self.cart_lock.release()
