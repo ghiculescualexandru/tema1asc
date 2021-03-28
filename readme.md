@@ -1,3 +1,4 @@
+  
 Nume: Ghiculescu Alexandru
 Grupa: 335CB
 
@@ -48,3 +49,23 @@ maxima.
 Cosul de cumparaturi are drept valori perechi (produs, id producator) tocmai
 pentru a stii in bufferul carui producator sa fie readaugat produsul atunci
 cand este sters dintr-un cos.
+
+***Producer***
+
+Producatorul primeste un ID iar apoi produce la infinit item-ele sale doar
+daca bufferul sau nu este la capacitate maxima, altfel asteapta timpul
+de republish
+
+***Consumer***
+Consumatorul primeste cate un ID pentru fiecare cos si realizeaza actiunile
+pentru fiecare cos: add (daca se poate, altfel asteapta timpul de retry) si
+remove. La finalul acestor actiuni plaseaza comanda.
+
+# Implementare
+
+Intregul enunt al temei a fost implementat, fara functionalitati extra si
+fara dificultati deosebite intampinate.
+
+# Git
+
+https://github.com/ghiculescualexandru/tema1asc
